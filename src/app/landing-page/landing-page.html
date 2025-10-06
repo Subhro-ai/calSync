@@ -1,3 +1,4 @@
+<!-- MAIN CONTAINER -->
 <div class="min-h-screen bg-[#1a1a1a] flex flex-col items-center font-mono text-white p-4 sm:p-6 page-container">
   
   <div class="floating-shape shape-1"></div>
@@ -38,14 +39,6 @@
           <button type="submit" [disabled]="!loginForm.valid" class="neo-button mt-8 w-full">
             Get Subscription Link
           </button>
-
-          <div class="mt-6 text-sm">
-            <p class="text-gray-500">Need help adding the link?</p>
-            <a routerLink="/ios-guide" class="text-cyan-400 underline hover:text-cyan-300">Apple Calendar</a>
-            <span class="text-gray-600 mx-2">|</span>
-            <a routerLink="/android-guide" class="text-cyan-400 underline hover:text-cyan-300">Google Calendar</a>
-          </div>
-
         </form>
       }
 
@@ -59,37 +52,56 @@
         </div>
       }
 
+      <!-- UPDATED SUCCESS STATE -->
       @if (uiState() === 'SUCCESS') {
-        <div class="text-center min-h-[280px] flex flex-col justify-center">
+        <div class="text-center min-h-[280px] flex flex-col justify-center items-center">
           <h3 class="text-2xl font-extrabold text-white">SUCCESS!</h3>
-          <p class="mt-2 text-gray-400">Copy the link below and add it to your calendar app (e.g., Google Calendar, Outlook) as a "subscription from URL".</p>
-          
-          <input type="text" readonly [value]="subscriptionUrl()" class="mt-4 w-full p-2 text-sm bg-gray-800 border-2 border-gray-600 text-gray-300 break-words">
+          <p class="mt-2 mb-6 text-gray-400">Your subscription link is ready. Use the button below to add it to your calendar.</p>
 
-          <button (click)="onCopyLink()" class="neo-button bg-lime-400 mt-6 w-full">
-            {{ copyButtonText() }}
-          </button>
+          <!-- iOS Button -->
+          @if (deviceType() === 'iOS') {
+            <a [href]="iosUrl()" class="neo-button bg-cyan-500 w-full">
+              Subscribe to Timetable (iOS)
+            </a>
+          }
 
+          <!-- Android Button -->
+          @if (deviceType() === 'Android') {
+            <a [href]="androidUrl()" target="_blank" class="neo-button bg-green-500 w-full">
+              Add to Google Calendar
+            </a>
+          }
+
+          <!-- Desktop / Fallback View -->
+          @if (deviceType() === 'Desktop') {
+            <p class="text-sm text-gray-400 mb-2">Copy the link below to add to Outlook, Apple Calendar, or other clients.</p>
+            <div class="relative w-full">
+              <input type="text" readonly [value]="subscriptionUrl()" class="w-full p-2 text-sm bg-gray-800 border-2 border-gray-600 text-gray-300 break-words pr-20">
+              <button (click)="copyToClipboard()" class="absolute right-1 top-1/2 -translate-y-1/2 text-xs bg-gray-600 hover:bg-gray-500 text-white font-bold py-1 px-2">
+                {{ copyButtonText() }}
+              </button>
+            </div>
+          }
           
-          <button (click)="resetForm()" class="mt-4 text-sm text-gray-500 hover:text-white">Start Over</button>
+          <button (click)="resetForm()" class="mt-8 text-sm text-gray-500 hover:text-white">Start Over</button>
+        </div>
+      }
+
+      @if (uiState() === 'ERROR') {
+         <div class="text-center min-h-[280px] flex flex-col justify-center">
+            <h3 class="text-2xl font-extrabold text-red-500">FAILED.</h3>
+            <p class="mt-2 text-gray-400">Could not generate link. Please check your credentials and try again.</p>
+            <button (click)="resetForm()" class="neo-button bg-red-500 text-white mt-6 w-full">
+              Try Again
+            </button>
         </div>
       }
 
     </section>
-    @if (uiState() === 'ERROR') {
-   <div class="text-center min-h-[280px] flex flex-col justify-center">
-      <h3 class="text-2xl font-extrabold text-red-500">FAILED.</h3>
-      <p class="mt-2 text-gray-400">Could not generate link. Please check your credentials and try again.</p>
-      <button (click)="resetForm()" class="neo-button bg-red-500 text-white mt-6 w-full">
-        Try Again
-      </button>
-  </div>
-}
 
   </main>
 
   <footer class="w-full p-4 text-center text-sm text-gray-500 content-layer">
     <p>A non-official utility for students.</p>
-    <p>For bug reports please message on 8900384866</p>
   </footer>
 </div>

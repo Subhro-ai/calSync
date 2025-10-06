@@ -12,6 +12,7 @@ export interface SubscriptionResponse {
 })
 export class Api {
   private readonly apiUrl = 'https://calsync-backend.onrender.com/api';
+  // private readonly apiUrl = 'http://localhost:8080/api'; // Use this for local development
   private http = inject(HttpClient);
 
   /**
