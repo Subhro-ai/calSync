@@ -29,9 +29,12 @@ export class LandingPage {
   deviceType: WritableSignal<DeviceType> = signal('Desktop');
   subscriptionUrl = signal('');
   
-  // Computed signals to automatically create the platform-specific links
+
   iosUrl = computed(() => this.subscriptionUrl().replace(/^https?/, 'webcal'));
-  androidUrl = computed(() => `https://calendar.google.com/calendar/u/0/r?cid=${this.subscriptionUrl()}`);
+
+
+  androidUrl = computed(() => `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(this.subscriptionUrl())}`);
+
 
 
   loginForm: FormGroup = this.fb.group({
