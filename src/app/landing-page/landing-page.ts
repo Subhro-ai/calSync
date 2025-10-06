@@ -33,8 +33,9 @@ export class LandingPage {
   iosUrl = computed(() => this.subscriptionUrl().replace(/^https?/, 'webcal'));
 
 
-  androidUrl = computed(() => `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(this.subscriptionUrl())}`);
-
+androidUrl = computed(() =>
+    `https://calendar.google.com/calendar/u/0/r/settings/addbyurl?url=${encodeURIComponent(this.subscriptionUrl())}`
+  );
 
 
   loginForm: FormGroup = this.fb.group({
