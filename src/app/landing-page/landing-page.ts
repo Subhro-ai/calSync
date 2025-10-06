@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Api } from '../api';
 import { finalize } from 'rxjs/operators';
+import { RouterLink } from '@angular/router';
 
 // Define a type for the possible UI states for better type safety
 type UiState = 'FORM' | 'LOADING' | 'SUCCESS' | 'ERROR';
@@ -10,7 +11,7 @@ type UiState = 'FORM' | 'LOADING' | 'SUCCESS' | 'ERROR';
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './landing-page.html',
   styleUrls: ['./landing-page.scss']
 })
