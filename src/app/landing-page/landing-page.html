@@ -1,12 +1,9 @@
-<!-- MAIN CONTAINER -->
 <div class="min-h-screen bg-[#1a1a1a] flex flex-col items-center font-mono text-white p-4 sm:p-6 page-container">
   
-  <!-- Floating SVG Shapes -->
   <div class="floating-shape shape-1"></div>
   <div class="floating-shape shape-2"></div>
   <div class="floating-shape shape-3"></div>
 
-  <!-- HEADER -->
   <header class="w-full p-4 text-center content-layer">
     <h1 class="text-2xl sm:text-3xl font-bold border-2 border-white px-4 py-2 inline-block neo-shadow-white">
       Timetable Sync
@@ -15,20 +12,17 @@
 
   <main class="w-full max-w-4xl mx-auto flex flex-col items-center py-8 sm:py-12 flex-grow content-layer">
     
-    <!-- HERO SECTION -->
     <section class="text-center mb-12">
       <h2 class="text-4xl md:text-6xl font-extrabold tracking-tighter mb-4">
         NEVER MISS A CLASS.
       </h2>
       <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-        Log in. Get your up-to-date timetable. Sync with any calendar. Simple.
+        Log in. Get a subscription link for your up-to-date timetable. Sync with any calendar.
       </p>
     </section>
 
-    <!-- INTERACTIVE APP SECTION -->
     <section class="w-full max-w-md bg-[#1a1a1a] p-8 border-2 border-white neo-shadow-white">
       
-      <!-- State: Login Form -->
       @if (uiState() === 'FORM') {
         <form [formGroup]="loginForm" (ngSubmit)="onGenerateCalendar()">
           <div class="space-y-6">
@@ -42,51 +36,51 @@
             </div>
           </div>
           <button type="submit" [disabled]="!loginForm.valid" class="neo-button mt-8 w-full">
-            Generate Calendar
+            Get Subscription Link
           </button>
         </form>
       }
 
-      <!-- State: Loading -->
       @if (uiState() === 'LOADING') {
-        <div class="flex flex-col items-center justify-center h-56">
+        <div class="flex flex-col items-center justify-center min-h-[280px]">
           <svg class="animate-spin h-10 w-10 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <p class="mt-4 text-lg font-bold uppercase tracking-wider text-gray-300">Fetching Timetable...</p>
+          <p class="mt-4 text-lg font-bold uppercase tracking-wider text-gray-300">Generating Link...</p>
         </div>
       }
 
-      <!-- State: Success -->
       @if (uiState() === 'SUCCESS') {
-        <div class="text-center h-56 flex flex-col justify-center">
+        <div class="text-center min-h-[280px] flex flex-col justify-center">
           <h3 class="text-2xl font-extrabold text-white">SUCCESS!</h3>
-          <p class="mt-2 text-gray-400">Your calendar file is ready.</p>
-          <button (click)="onDownloadFile()" class="neo-button bg-lime-400 mt-6 w-full">
-            Download .ics File
-          </button>
-        </div>
-      }
+          <p class="mt-2 text-gray-400">Copy the link below and add it to your calendar app (e.g., Google Calendar, Outlook) as a "subscription from URL".</p>
+          
+          <input type="text" readonly [value]="subscriptionUrl()" class="mt-4 w-full p-2 text-sm bg-gray-800 border-2 border-gray-600 text-gray-300 break-words">
 
-      <!-- State: Error -->
-      @if (uiState() === 'ERROR') {
-         <div class="text-center h-56 flex flex-col justify-center">
-            <h3 class="text-2xl font-extrabold text-red-500">LOGIN FAILED.</h3>
-            <p class="mt-2 text-gray-400">Check your credentials and try again.</p>
-            <button (click)="resetForm()" class="neo-button bg-red-500 text-white mt-6 w-full">
-              Try Again
-            </button>
+          <button (click)="onCopyLink()" class="neo-button bg-lime-400 mt-6 w-full">
+            {{ copyButtonText() }}
+          </button>
+
+          <button (click)="resetForm()" class="mt-4 text-sm text-gray-500 hover:text-white">Start Over</button>
         </div>
       }
 
     </section>
+    @if (uiState() === 'ERROR') {
+   <div class="text-center min-h-[280px] flex flex-col justify-center">
+      <h3 class="text-2xl font-extrabold text-red-500">FAILED.</h3>
+      <p class="mt-2 text-gray-400">Could not generate link. Please check your credentials and try again.</p>
+      <button (click)="resetForm()" class="neo-button bg-red-500 text-white mt-6 w-full">
+        Try Again
+      </button>
+  </div>
+}
 
   </main>
 
-  <!-- FOOTER -->
   <footer class="w-full p-4 text-center text-sm text-gray-500 content-layer">
     <p>A non-official utility for students.</p>
+    <p>For bug reports please message on 8900384866</p>
   </footer>
 </div>
-
