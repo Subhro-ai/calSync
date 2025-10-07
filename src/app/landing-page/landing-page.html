@@ -67,9 +67,13 @@
 
           <!-- Android Button -->
           @if (deviceType() === 'Android') {
-            <a [href]="androidUrl()" target="_blank" class="neo-button bg-green-500 w-full">
-              Add to Google Calendar
-            </a>
+            <p class="text-sm text-gray-400 mb-2">Copy the link below to add to Outlook, Apple Calendar, or other clients.</p>
+            <div class="relative w-full">
+              <input type="text" readonly [value]="subscriptionUrl()" class="w-full p-2 text-sm bg-gray-800 border-2 border-gray-600 text-gray-300 break-words pr-20">
+              <button (click)="copyToClipboard()" class="absolute right-1 top-1/2 -translate-y-1/2 text-xs bg-gray-600 hover:bg-gray-500 text-white font-bold py-1 px-2">
+                {{ copyButtonText() }}
+              </button>
+            </div>
           }
 
           <!-- Desktop / Fallback View -->
