@@ -6,6 +6,8 @@ import { finalize } from 'rxjs/operators';
 import { RouterLink } from '@angular/router';
 import { DeviceDetector, DeviceType } from '../device-detector';
 import { GoogleAnalytics } from '../google-analytics';
+import { AnimatedBackground } from '../animated-background/animated-background';
+
 
 // Define a type for the possible UI states for better type safety
 type UiState = 'FORM' | 'LOADING' | 'SUCCESS' | 'ERROR';
@@ -13,7 +15,7 @@ type UiState = 'FORM' | 'LOADING' | 'SUCCESS' | 'ERROR';
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink,AnimatedBackground],
   templateUrl: './landing-page.html',
   styleUrls: ['./landing-page.scss']
 })
