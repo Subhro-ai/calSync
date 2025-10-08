@@ -5,7 +5,7 @@ import { Api } from '../api';
 import { finalize } from 'rxjs/operators';
 import { RouterLink } from '@angular/router';
 import { DeviceDetector, DeviceType } from '../device-detector';
-
+import { GoogleAnalytics } from '../google-analytics';
 
 // Define a type for the possible UI states for better type safety
 type UiState = 'FORM' | 'LOADING' | 'SUCCESS' | 'ERROR';
@@ -21,6 +21,7 @@ export class LandingPage {
   private fb = inject(FormBuilder);
   private apiService = inject(Api);
   private deviceDetector = inject(DeviceDetector);
+  private googleAnalytics = inject(GoogleAnalytics);
 
   uiState: WritableSignal<UiState> = signal('FORM');
   copyButtonText: WritableSignal<string> = signal('Copy Link');
@@ -60,6 +61,11 @@ androidUrl = computed(() =>
         this.subscriptionUrl.set(url);
         this.deviceType.set(this.deviceDetector.getDeviceType());
         this.uiState.set('SUCCESS');
+        this.googleAnalytics.event('subscribe', {
+          'event_category': 'engagement',
+          'event_label': 'Subscribe to Calendar',
+          'value': this.deviceType
+        });
       },
       error: (error) => {
         console.error('Failed to get subscription URL:', error);
